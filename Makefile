@@ -12,6 +12,7 @@ ASMFLAGS = +cpm
 
 # Target executables (8.3 names)
 TEST_NAME = ansitest
+COLOR_TEST = colortes
 
 # Source files
 C_SOURCES = ansi.c ansitest.c
@@ -36,6 +37,13 @@ ansi.o: ansi.c ansi.h
 # Build test objects
 ansitest.o: ansitest.c ansi.h
 	$(ZCC) $(TARGET) $(CFLAGS) -c ansitest.c -o ansitest.o
+
+# Build color test program
+$(COLOR_TEST).com: colortest.o ansi.o
+	$(ZCC) $(TARGET) $(CFLAGS) $(LDFLAGS) -o $@ colortest.o ansi.o
+
+colortest.o: colortest.c ansi.h
+	$(ZCC) $(TARGET) $(CFLAGS) -c colortest.c -o colortest.o
 
 # Clean build artifacts
 clean:

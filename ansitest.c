@@ -1,7 +1,5 @@
 #include "ansi.h"
-
-// putchar is provided by ansi.c
-extern int putchar(int c);
+#include <stdio.h>
 
 // Simple print functions without stdio
 void printStr(char *str) {
@@ -42,6 +40,14 @@ void testBasicAnsi(void) {
     
     printStr("Screen cleared! Testing colors...\r\n\r\n");
     
+    // Debug: Show what codes we're sending
+    printStr("Debug: Sending color codes...\r\n");
+    printStr("ESC[31m should be red: ");
+    putchar(27); printStr("[31m");
+    printStr("RED\r\n");
+    putchar(27); printStr("[0m");  // Reset
+    
+    printStr("Our function test:\r\n");
     // Test colors
     ansi_set_fg_color(ANSI_RED);
     printStr("RED TEXT ");
@@ -146,7 +152,7 @@ void testAnsiDetection(void) {
 }
 
 int main(void) {
-    printStr("ANSI Library Test Program v0.1.1\r\n");
+    printStr("ANSI Library Test Program v0.1.2\r\n");
     printStr("For RC2014 with RomWBW CP/M\r\n");
     printStr("==============================\r\n\r\n");
     

@@ -1,14 +1,7 @@
 #include "ansi.h"
+#include <stdio.h>
 
-// Simple putchar implementation for CP/M
-int putchar(int c) {
-    __asm
-        ld c, 2
-        ld e, l    ; Parameter is in L, not A
-        call 5
-    __endasm;
-    return c;
-}
+// Use Z88DK's built-in putchar - no need for custom implementation
 
 // Helper function to print a number as decimal
 void print_num(int num) {
@@ -100,12 +93,15 @@ void ansi_clear_to_eol(void) {
 void ansi_set_fg_color(ansi_color_t color) {
     putchar(27);  // ESC
     putchar('[');
+    
     if (color >= 8) {
-        // Bright colors (8-15): use ESC[9Xm format
-        putchar('9');
+        // Bright colors: ESC[1;3Xm format
+        putchar('1');
+        putchar(';');
+        putchar('3');
         putchar('0' + (color - 8));
     } else {
-        // Normal colors (0-7): use ESC[3Xm format
+        // Normal colors: ESC[3Xm format (30-37)
         putchar('3');
         putchar('0' + color);
     }
@@ -121,7 +117,7 @@ void ansi_set_bg_color(ansi_color_t color) {
         putchar('0');
         putchar('0' + (color - 8));
     } else {
-        // Normal background colors (0-7): use ESC[4Xm format
+        // Normal background colors (0-7): use ESC[4Xm format (40-47)
         putchar('4');
         putchar('0' + color);
     }

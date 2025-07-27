@@ -100,27 +100,38 @@ void ansi_clear_to_eol(void) {
 void ansi_set_fg_color(ansi_color_t color) {
     putchar(27);  // ESC
     putchar('[');
-    putchar('3');
-    putchar('0' + (color % 10));
+    if (color >= 8) {
+        // Bright colors (8-15): use ESC[9Xm format
+        putchar('9');
+        putchar('0' + (color - 8));
+    } else {
+        // Normal colors (0-7): use ESC[3Xm format
+        putchar('3');
+        putchar('0' + color);
+    }
     putchar('m');
 }
 
 void ansi_set_bg_color(ansi_color_t color) {
     putchar(27);  // ESC
     putchar('[');
-    putchar('4');
-    putchar('0' + (color % 10));
+    if (color >= 8) {
+        // Bright background colors (8-15): use ESC[10Xm format
+        putchar('1');
+        putchar('0');
+        putchar('0' + (color - 8));
+    } else {
+        // Normal background colors (0-7): use ESC[4Xm format
+        putchar('4');
+        putchar('0' + color);
+    }
     putchar('m');
 }
 
 void ansi_reset_colors(void) {
     putchar(27);  // ESC
     putchar('[');
-    putchar('3');
-    putchar('9');
-    putchar(';');
-    putchar('4');
-    putchar('9');
+    putchar('0');
     putchar('m');
 }
 

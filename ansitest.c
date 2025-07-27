@@ -146,7 +146,7 @@ void testAnsiDetection(void) {
 }
 
 int main(void) {
-    printStr("ANSI Library Test Program v0.1.0\r\n");
+    printStr("ANSI Library Test Program v0.1.1\r\n");
     printStr("For RC2014 with RomWBW CP/M\r\n");
     printStr("==============================\r\n\r\n");
     
